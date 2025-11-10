@@ -1,0 +1,175 @@
+body {
+  font-family: 'Open Sans', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+* {
+  box-sizing: border-box;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  background-color: #43281c;
+  align-items: center;
+  justify-content: center;
+  color: #fbf2c0;
+  gap: 10px;
+  margin: 0;
+}
+
+.header-logo {
+  height: 25px;
+}
+
+.user-info-container {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+}
+
+.order-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  row-gap: 30px;
+  column-gap: 30px;
+  padding: 30px;
+  width: 100%;
+}
+
+.box {
+  background-color: #eee1d5;
+  border-radius: 5px;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.2);
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+.order-container-title {
+  color: #885a2d;
+  font-size: 16px;
+  font-weight: normal;
+  text-transform: uppercase;
+}
+
+.order-items-list {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  padding: 0;
+}
+.order-item-cnt {
+  grid-area: cnt;
+}
+.options {
+  grid-area: options;
+  color: #b08968;
+  margin: 0;
+  padding: 0;
+  font-size: 14px;
+}
+
+.order-item-name {
+  grid-area: name;
+  font-weight: bold;
+  text-transform: capitalize;
+}
+.order-item-price {
+  grid-area: price;
+  font-weight: bold;
+}
+
+.order-item {
+  display: grid;
+  border-bottom: 2px solid #ddb892;
+  padding: 10px 0;
+  grid-template-columns: 1fr 8fr 1fr;
+  grid-template-areas:
+    'cnt name price '
+    'cnt options price';
+  row-gap: 8px;
+}
+.order-item:last-child {
+  border-bottom: none;
+}
+
+.payment {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.name {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.subtotal {
+  grid-area: subtotal;
+}
+.subtotal-value {
+  grid-area: subtotal-value;
+}
+.tax {
+  grid-area: tax;
+}
+.tax-value {
+  grid-area: tax-value;
+}
+.total {
+  grid-area: total;
+}
+.total-value {
+  grid-area: total-value;
+}
+.check-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-areas:
+    '. subtotal .  . subtotal-value .'
+    '. tax . . tax-value .'
+    '. total . . total-value .';
+  align-items: center;
+  justify-content: center;
+  row-gap: 20px;
+}
+
+.total {
+  font-weight: bold;
+}
+
+.place-order-button {
+  background-color: #deb993;
+  font-size: 16px;
+  font-weight: normal;
+  border: none;
+  width: 100%;
+  border-radius: 100px;
+  padding: 10px 30px;
+  margin: 30px;
+}
+
+.input-container {
+  position: relative;
+  display: inline-block;
+}
+.input-label {
+  position: absolute;
+  left: 25px;
+  top: -7px;
+  background-color: #eee1d5;
+  font-size: 11px;
+  padding: 0 2px;
+  color: #885a2d;
+}
+input {
+  border: 2px #885a2d solid;
+  border-radius: 100px;
+  background-color: #eee1d5;
+  width: 100%;
+  text-indent: 18px;
+  font-size: 18px;
+  padding: 8px;
+}
+.cvv {
+  width: 50%;
+}
