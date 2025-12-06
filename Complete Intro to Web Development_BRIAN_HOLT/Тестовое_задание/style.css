@@ -1,0 +1,29 @@
+body {
+  margin: 20px;
+  border: 2px black solid;
+  border-radius: 20px;
+  padding: 20px;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.logo {
+  height: 90px;
+}
+.log-in-container{
+    
+
+}
+
+.login-button{
+    color: white;
+    background-color: blue;
+    border-radius: 20px;
+    border: 1px black solid;
+    height: 45px;
+    width: 90px;
+}

@@ -1,0 +1,123 @@
+* {
+  box-sizing: border-box;
+}
+button:hover {
+  opacity: 0.8;
+}
+.operators-container > .box:hover {
+  opacity: 0.8;
+}
+
+body {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 40px;
+  font-weight: 600;
+}
+.calculator-container {
+  background-color: black;
+  height: max-content;
+  width: max-content;
+}
+
+.display-container {
+  color: white;
+  padding: 20px 5px;
+  text-align: right;
+  font-size: 60px;
+  font-weight: 400;
+}
+.box {
+  cursor: pointer;
+  height: 100px;
+  width: 100px;
+  background-color: #d8d9db;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  font-size: 40px;
+}
+
+.buttons-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2px;
+  color: black;
+}
+
+.numbers-container {
+  gap: 2px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-areas:
+    'reset reset remove'
+    'seven eight nine'
+    'four five six'
+    'one two three'
+    'zero zero zero';
+}
+.operators-container {
+  gap: 2px;
+  display: flex;
+  flex-direction: column;
+}
+.operators-container > .box {
+  background-color: #df974c;
+  color: white;
+}
+
+.reset {
+  grid-area: reset;
+  width: 100%;
+}
+.remove {
+  grid-area: remove;
+}
+.zero {
+  grid-area: zero;
+  width: 100%;
+}
+.one {
+  grid-area: one;
+}
+.two {
+  grid-area: two;
+}
+.three {
+  grid-area: three;
+}
+.four {
+  grid-area: four;
+}
+.five {
+  grid-area: five;
+}
+.six {
+  grid-area: six;
+}
+.seven {
+  grid-area: seven;
+}
+.eight {
+  grid-area: eight;
+}
+.nine {
+  grid-area: nine;
+}
+.division {
+  grid-area: division;
+}
+.multiplication {
+  grid-area: multiplication;
+}
+.minus {
+  grid-area: minus;
+}
+.plus {
+  grid-area: plus;
+}
+.result {
+  grid-area: result;
+}
