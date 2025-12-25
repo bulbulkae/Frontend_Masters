@@ -2,6 +2,17 @@
   box-sizing: border-box;
   font-family: sans-serif;
 }
+@keyframes red-box {
+  10% {
+    border-color: #ff0000;
+  }
+  100% {
+    border-color: #ccc;
+  }
+}
+.win {
+  animation: rainbow 5s infinite;
+}
 
 .wordle {
   display: flex;
@@ -37,6 +48,54 @@
   }
 }
 
+@keyframes rainbow {
+  10% {
+    background-color: white;
+  }
+  10% {
+    background-color: yellow;
+  }
+  10% {
+    background-color: yellowgreen;
+  }
+  12% {
+    background-color: green;
+  }
+  10% {
+    background-color: blue;
+  }
+  10% {
+    background-color: blueviolet;
+  }
+  10% {
+    background-color: violet;
+  }
+  10% {
+    background-color: pink;
+  }
+  10% {
+    background-color: orange;
+  }
+}
+
+.invalid {
+  animation: red-box 2s;
+}
+
+.close {
+  background-color: goldenrod;
+  color: white;
+}
+
+.wrong {
+  background-color: #888;
+  color: white;
+}
+
+.correct {
+  background-color: darkgreen;
+  color: white;
+}
 .board {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;

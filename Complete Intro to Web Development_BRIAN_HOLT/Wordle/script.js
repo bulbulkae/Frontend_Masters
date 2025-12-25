@@ -1,8 +1,9 @@
 const GET_URL = 'https://words.dev-apis.com/word-of-the-day';
 const POST_URL = 'https://words.dev-apis.com/validate-word';
 let todaysWord = '';
+const ANSWER_LENGTH = 5;
 let cnt = 0;
-let word = '';
+let guessWord = '';
 
 async function getTodaysWord() {
   const promise = await fetch(GET_URL);
@@ -10,49 +11,102 @@ async function getTodaysWord() {
   return response.word;
 }
 
-const setTodaysWord = async () => {
-  todaysWord = await getTodaysWord();
-};
-
 function isLetter(letter) {
   return /^[a-zA-Z]$/.test(letter);
 }
 
 function handleLetter(letter) {
-  if (
-    (cnt !== 5 && cnt !== 10 && cnt !== 15 && cnt !== 20 && cnt !== 25 && cnt !== 30) ||
-    word === ''
-  ) {
-    cnt++;
-    word += letter;
-    let elemId = 'letter-' + cnt;
-    document.getElementById(elemId).innerText = letter;
+  if (guessWord.length < ANSWER_LENGTH) guessWord += letter;
+  else {
+    guessWord = guessWord.slice(0, guessWord.length - 1) + letter;
   }
+  document.getElementById('letter-' + (ANSWER_LENGTH * cnt + guessWord.length)).innerText = letter;
+}
+
+function makeMap(word) {
+  console.log(word);
+  const obj = {};
+  for (let i = 0; i < word.length; i++) {
+    if (obj[word[i]]) {
+      obj[word[i]]++;
+    } else {
+      obj[word[i]] = 1;
+    }
+  }
+  // console.log(obj);
+
+  return obj;
 }
 
 async function handleEnterClicked() {
-  console.log('entered word: ', word);
-  if (await wordCheck(word)) {
-    for (let i = 0; i < word.length; i++) {
-      console.log(word[i], i);
-      if (todaysWord.includes(word[i])) {
-        document.getElementById('letter-' + (i + 1)).style.backgroundColor = 'green';
+  const todaysWordMap = makeMap(todaysWord);
+
+  console.log('entered guessWord: ', guessWord);
+  document.querySelector('.loading').classList.remove('hidden');
+  let response = await wordCheck(guessWord);
+  document.querySelector('.loading').classList.add('hidden');
+
+  if (response) {
+    if (guessWord === todaysWord) {
+      for (let i = 0; i < guessWord.length; i++) {
+        document.getElementById('letter-' + (ANSWER_LENGTH * cnt + i + 1)).classList.add('correct');
+      }
+
+      setTimeout(() => alert('you win'), 20);
+      document.querySelector('header').classList.add('win');
+    } else {
+      if (cnt === 5) {
+        alert('you lose!');
+      }
+      for (let i = 0; i < guessWord.length; i++) {
+        if (todaysWord[i] === guessWord[i]) {
+          document
+            .getElementById('letter-' + (ANSWER_LENGTH * cnt + i + 1))
+            .classList.add('correct');
+          todaysWordMap[guessWord[i]]--;
+          console.log(todaysWordMap);
+        }
+      }
+
+      for (let i = 0; i < guessWord.length; i++) {
+        if (todaysWord[i] === guessWord[i]) {
+        } else if (todaysWordMap[guessWord[i]] && todaysWordMap[guessWord[i]] > 0) {
+          document.getElementById('letter-' + (ANSWER_LENGTH * cnt + i + 1)).classList.add('close');
+          todaysWordMap[guessWord[i]]--;
+        } else {
+          document.getElementById('letter-' + (ANSWER_LENGTH * cnt + i + 1)).classList.add('wrong');
+        }
       }
     }
+
+    cnt++;
+    guessWord = '';
   } else {
-    console.log('hah wrong word');
+    for (let i = 0; i < guessWord.length; i++) {
+      console.log('INVALID');
+
+      document
+        .getElementById('letter-' + (ANSWER_LENGTH * cnt + i + 1))
+        .classList.remove('invalid');
+
+      setTimeout(
+        () =>
+          document
+            .getElementById('letter-' + (ANSWER_LENGTH * cnt + i + 1))
+            .classList.add('invalid'),
+        15,
+      );
+    }
   }
-  word = '';
-  console.log('cnt:', cnt, 'word: ', word);
 }
 
-async function wordCheck(word) {
+async function wordCheck(guessWord) {
   const promise = await fetch(POST_URL, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ word: word }),
+    body: JSON.stringify({ word: guessWord }),
   });
 
   const response = await promise.json();
@@ -61,28 +115,21 @@ async function wordCheck(word) {
 }
 
 function handleBackspaceClicked() {
-  console.log('Backspace');
-  if (cnt > 0) {
-    document.getElementById('letter-' + cnt).innerText = '';
-    cnt--;
-    word = word.slice(0, word.length - 1);
-    console.log(cnt, word);
-  }
+  document.getElementById('letter-' + (ANSWER_LENGTH * cnt + guessWord.length)).innerText = '';
+  guessWord = guessWord.slice(0, guessWord.length - 1);
 }
 
 async function init() {
   document.querySelector('.loading').classList.remove('hidden');
-  await setTodaysWord();
-  console.log('Todays word loaded: ', todaysWord);
+  todaysWord = await getTodaysWord();
+  console.log('Todays guessWord loaded: ', todaysWord);
   document.querySelector('.loading').classList.add('hidden');
 
   document.addEventListener('keydown', (event) => {
-    if (!isLetter(event.key)) {
-      //   console.log(event.key);
-      if (event.key === 'Enter' && cnt % 5 === 0) handleEnterClicked();
-      else if (event.key === 'Delete' || event.key === 'Backspace') handleBackspaceClicked();
-      else event.preventDefault();
-    } else handleLetter(event.key);
+    if (isLetter(event.key)) handleLetter(event.key);
+    else if (event.key === 'Enter' && guessWord.length === ANSWER_LENGTH) handleEnterClicked();
+    else if ((event.key === 'Delete' || event.key === 'Backspace') && guessWord !== '')
+      handleBackspaceClicked();
   });
 }
 init();
